@@ -1,0 +1,134 @@
+name: generic_array
+
+# `Cloud accelerator` from FLAT (https://dl.acm.org/doi/pdf/10.1145/3575693.3575747) and used in FuseMax (https://openreview.net/forum?id=HKwsTuKEpo)
+
+# 940 MHz
+# 256x256 systolic array
+# 32 MB @ 8 TB/s on-chip buffer
+# DRAM @ 400 GB/s
+
+# Energy values
+# DRAM: 10 pJ/bit
+# SRAM: 1 pJ/bit
+# RF:   0.01 pJ/bit
+# MAC:  0.01 pJ/bit
+# w_cost = 1.5x r_cost
+
+memories:
+  rf_I:
+    size: 8
+    r_bw: 8
+    w_bw: 8
+    r_cost: 0.2
+    w_cost: 0.2
+    area: 0
+    r_port: 1
+    w_port: 1
+    rw_port: 0
+    latency: 1
+    min_r_granularity: 8
+    min_w_granularity: 8
+    operands: [I1]
+    ports:
+      - fh: w_port_1
+        tl: r_port_1
+    served_dimensions: []
+
+  rf_W: # For MatMul, this will store activations
+    size: 8
+    r_bw: 8
+    w_bw: 8
+    r_cost: 0.2
+    w_cost: 0.2
+    area: 0
+    r_port: 1
+    w_port: 1
+    rw_port: 0
+    latency: 1
+    min_r_granularity: 1
+    min_w_granularity: 1
+    operands: [I2]
+    ports:
+      - fh: w_port_1
+        tl: r_port_1
+    served_dimensions: []
+
+  rf_O:
+    size: 16
+    r_bw: 16
+    w_bw: 16
+    r_cost: 0.4
+    w_cost: 0.4
+    area: 0
+    r_port: 2
+    w_port: 2
+    rw_port: 0
+    latency: 1
+    min_r_granularity: 16
+    min_w_granularity: 16
+    operands: [O]
+    ports:
+      - fh: w_port_1
+        tl: r_port_1
+        fl: w_port_2
+        th: r_port_2
+    served_dimensions: []
+
+  sram_32MB:
+    # From FLAT paper: 8 Tbit/s on-chip BW
+    size: 268_435_456
+    r_bw: 8192
+    w_bw: 8192
+    r_cost: 8192
+    w_cost: 8192
+    area: 0
+    r_port: 3
+    w_port: 3
+    rw_port: 0
+    latency: 1
+    min_r_granularity: 512
+    min_w_granularity: 512
+    operands: [I1, I2, O]
+    ports:
+      - fh: w_port_1
+        tl: r_port_1
+      - fh: w_port_2
+        tl: r_port_2
+      - fh: w_port_3
+        tl: r_port_3
+        fl: w_port_3
+        th: r_port_3
+    served_dimensions: [D1, D2]
+
+  dram:
+    # From FLAT paper: 400 GB/s off-chip BW
+    size: 10000000000000000
+    r_bw: 2048
+    w_bw: 2048
+    r_cost: 51_200
+    w_cost: 51_200
+    area: 0
+    r_port: 0
+    w_port: 0
+    rw_port: 1
+    latency: 1
+    min_r_granularity: 512
+    min_w_granularity: 512
+    operands: [I1, I2, O]
+    ports:
+      - fh: rw_port_1
+        tl: rw_port_1
+      - fh: rw_port_1
+        tl: rw_port_1
+      - fh: rw_port_1
+        tl: rw_port_1
+        fl: rw_port_1
+        th: rw_port_1
+    served_dimensions: [D1, D2]
+
+operational_array:
+  input_precision: [32, 32] # Not used
+  multiplier_energy: 1.5
+  multiplier_area: 1 # unit
+  dimensions: [D1, D2]
+  sizes: [256, 256]

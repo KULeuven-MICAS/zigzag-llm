@@ -1,0 +1,29 @@
+- id: 0
+  name: key_proj
+  operator_type: Gemm
+  equation: O[b][k][d]=W[k][c]*I[b][c][d]
+  loop_dims: [B, K, D, C]
+  loop_sizes: [8, 4096, 1024, 4096]
+  operand_precision:
+    W: 4
+    I: 16
+    O: 32
+    O_final: 8
+  operand_source:
+    I: 0
+    W: 0
+
+- id: 1
+  name: feedforward_expand
+  operator_type: Gemm
+  equation: O[b][k][d]=W[k][c]*I[b][c][d]
+  loop_dims: [B, K, D, C]
+  loop_sizes: [1, 11008, 1024, 4096]
+  operand_precision:
+    W: 4
+    I: 16
+    O: 32
+    O_final: 16
+  operand_source:
+    I: 0
+    W: 0

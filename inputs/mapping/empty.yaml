@@ -1,0 +1,2 @@
+- name: default
+  core_allocation: [1]
