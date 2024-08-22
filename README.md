@@ -12,4 +12,5 @@ $ pip install -r requirements.txt
 $ python main.py
 ```
 
-
+The result should look like this:
+![image](https://github.com/user-attachments/assets/453ce332-f3a9-4cfd-af98-bbb578768c9e)
