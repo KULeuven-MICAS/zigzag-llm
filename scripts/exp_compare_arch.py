@@ -7,7 +7,7 @@ import os
 import sys
 
 sys.path.append(os.getcwd())
-from src.config import LLAMA_2_7B, W4A16
+from src.config import LLAMA_1_13B, W4A16
 from src.plots import (
     plot_energy_and_latency_minimal,
 )
@@ -19,7 +19,7 @@ from src.util import (
     get_experiment_id,
 )
 
-models = [LLAMA_2_7B]
+models = [LLAMA_1_13B]
 quant = W4A16
 accelerators = ["generic_array_32b", "generic_array_edge_32b"]
 mapping_path = "inputs/mapping/weight_unrolled_256.yaml"
