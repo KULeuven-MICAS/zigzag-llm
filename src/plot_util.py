@@ -1,6 +1,5 @@
-import itertools
-from time import sleep
 from typing import Any
+
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn

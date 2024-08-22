@@ -7,10 +7,9 @@ import os
 import sys
 
 sys.path.append(os.getcwd())
+from src.config import ALL_MODELS, BATCH_SIZE, W8A8
 from src.simulation import run_simulation
-from src.config import ALL_MODELS, BATCH_SIZE, W4A16, W8A8
 from src.util import Stage
-
 
 models = ALL_MODELS
 quants = [W8A8]
@@ -23,7 +22,6 @@ if __name__ == "__main__":
     for model, accelerator, quant, batch_size, stage in itertools.product(
         models, accelerators, quants, batch_sizes, Stage
     ):
-
         # Overwrite batch size for the experiment
         model.batch_size = batch_size
 

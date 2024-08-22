@@ -2,21 +2,21 @@
 Show what happens if the sequence length becomes very small / large.
 """
 
-from copy import deepcopy
 import itertools
 import os
 import sys
+from copy import deepcopy
 
 sys.path.append(os.getcwd())
+from src.config import LLAMA_2_7B, W4A16, LLMConfig
+from src.plots import (
+    plot_energy_and_latency,
+)
 from src.simulation import run_simulation
-from src.config import ALL_MODELS, BATCH_SIZE, LLAMA_2_7B, PAPER_MODELS, W4A16, W8A8, LLMConfig
 from src.util import (
     CME_T,
     Stage,
     get_cmes_full_model_from_pickle,
-)
-from src.plots import (
-    plot_energy_and_latency,
 )
 
 models = [LLAMA_2_7B]
@@ -44,7 +44,6 @@ for model, scenario in itertools.product(models, scenarios):
 
 def run_experiment():
     for modified_model, accelerator, stage in itertools.product(modified_models, accelerators, Stage):
-
         identifier = (
             f"{modified_model.parameterized_name}_{quant.name}_"
             f"{f'prefill={modified_model.prefill_size}' if stage == Stage.PREFILL else f'decode={modified_model.decode_idx}'}"
@@ -68,7 +67,6 @@ if __name__ == "__main__":
     run_experiment()
 
     for modified_model in modified_models:
-
         cmes_per_arch: list[list[CME_T]] = []
 
         for accelerator, stage in itertools.product(accelerators, Stage):

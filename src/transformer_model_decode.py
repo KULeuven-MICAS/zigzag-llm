@@ -1,13 +1,13 @@
 # Taken from https://github.com/suvash/nnze2he/blob/main/makemore/src/gpt.py
 
 import math
+
 import torch
-from torch import Tensor
 import torch.nn as nn
+from torch import Tensor
 from torch.nn import functional as F
 
 from src.config import LLMConfig
-
 
 device = "cpu"
 dropout = 0.3
@@ -35,7 +35,6 @@ class Head(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, key_token: Tensor, query_token: Tensor, value_token: Tensor):
-
         _, L, _ = key_token.shape  # (B, 1, head_size)
 
         # This would be loaded from memory
@@ -60,7 +59,6 @@ class Head(nn.Module):
 
 
 class MultiHeadAttention(nn.Module):
-
     def __init__(self, cfg: LLMConfig):
         super().__init__()  # type: ignore
         self.cfg = cfg
@@ -134,7 +132,6 @@ class LanguageModelDecode(nn.Module):
     be generated"""
 
     def __init__(self, cfg: LLMConfig):
-
         super().__init__()  # type: ignore
         self.token_embedding_table = nn.Embedding(cfg.vocab_size, cfg.embedding_dim)
         self.position_embedding_table = nn.Embedding(1, cfg.embedding_dim)

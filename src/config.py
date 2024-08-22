@@ -1,5 +1,4 @@
 from copy import deepcopy
-from dataclasses import dataclass
 
 BATCH_SIZE = 8
 
@@ -16,7 +15,6 @@ class LLMConfig:
         vocab_size: int = 1000,
         name: str = "",
     ):
-
         self.batch_size = batch_size
         self.__seq_len = seq_len
         self.embedding_dim = embedding_dim

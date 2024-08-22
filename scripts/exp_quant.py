@@ -7,16 +7,16 @@ import os
 import sys
 
 sys.path.append(os.getcwd())
+from src.config import LLAMA_2_7B, W1A32, W4A16, W32A32
+from src.plots import (
+    plot_energy_and_latency,
+)
 from src.simulation import run_simulation
-from src.config import LLAMA_2_7B, W1A32, W1A8, W32A32, W4A16, W4A8, W8A8
 from src.util import (
     CME_T,
     Stage,
     get_cmes_full_model_from_pickle,
     get_experiment_id,
-)
-from src.plots import (
-    plot_energy_and_latency,
 )
 
 model = LLAMA_2_7B

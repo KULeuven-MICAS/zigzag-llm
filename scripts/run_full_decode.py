@@ -3,15 +3,15 @@ Simulate the decoding phase by evaluating each token separately in the sequence 
 """
 
 import json
-import sys
-import imageio
 import os
+import sys
+
+import imageio
 from zigzag import api
 
-
 sys.path.append(os.getcwd())
+from src.config import LLAMA_1_7B, W8A8
 from src.export_onnx import export_transformer_to_onnx
-from src.config import GPT3_175B, LLAMA_1_7B, OPT_125M, W16A32, W4A16, W4A8, W8A8
 from src.util import Stage, get_accelerator_path
 
 model = LLAMA_1_7B
@@ -25,7 +25,6 @@ out_path = "outputs/full_decode"
 
 def run_experiment():
     for decode_idx in range(model.seq_len // 2 + 1, model.seq_len):
-
         # Overwrite decode_idx
         model.decode_idx = decode_idx
 
@@ -50,7 +49,6 @@ def run_experiment():
 
 
 def make_gif():
-
     image_list = [
         f"outputs/full_decode/{model.name}_{quant.name}_decode={idx}/interesting_layers_full.png"
         for idx in range(1025, 2048)

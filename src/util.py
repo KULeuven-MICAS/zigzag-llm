@@ -1,11 +1,10 @@
-from enum import StrEnum
-from typing import TypeAlias
-from typing import Any, TypeVar
-import numpy as np
 import pickle
+from enum import StrEnum
+from typing import Any, TypeAlias, TypeVar
+
+import numpy as np
 
 from src.config import LLMConfig, QuantConfig
-
 
 LAYERS_TO_PLOT = ["key_proj", "mul_qk_t", "mul_logits", "feedforward_expand", "feedforward_contract"]
 GROUPS = ["Linear proj.", "Attention", "FFN"]

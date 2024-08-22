@@ -1,13 +1,13 @@
 # Adapted from https://github.com/suvash/nnze2he/blob/main/makemore/src/gpt.py
 
 import math
+
 import torch
-from torch import Tensor
 import torch.nn as nn
+from torch import Tensor
 from torch.nn import functional as F
 
 from src.config import LLMConfig
-
 
 device = "cpu"
 dropout = 0.3
@@ -35,7 +35,6 @@ class Head(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, key: Tensor, query: Tensor, value: Tensor):
-
         _, L, _ = key.shape
         key_transpose = key.transpose(-2, -1)
 
@@ -50,7 +49,6 @@ class Head(nn.Module):
 
 
 class MultiHeadAttention(nn.Module):
-
     def __init__(self, cfg: LLMConfig):
         super().__init__()  # type: ignore
         self.cfg = cfg
@@ -126,7 +124,6 @@ class Block(nn.Module):
 
 
 class LanguageModel(nn.Module):
-
     def __init__(self, cfg: LLMConfig):
         super().__init__()  # type: ignore
         # each token directly reads off the logits for the next token from a lookup table

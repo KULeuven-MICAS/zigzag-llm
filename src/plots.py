@@ -1,7 +1,7 @@
 import itertools
+
 import numpy as np
 
-from src.util import ARRAY_T, CME_T, GROUPS
 from src.plot_util import (
     BarPlotter,
     BarPlotterSubfigures,
@@ -9,6 +9,7 @@ from src.plot_util import (
     PlotCMEMinimal,
     group_results,
 )
+from src.util import ARRAY_T, CME_T, GROUPS
 
 
 def plot_energy_clean(cmes: list[CME_T], filename: str):

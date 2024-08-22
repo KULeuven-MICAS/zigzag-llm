@@ -7,16 +7,16 @@ import os
 import sys
 
 sys.path.append(os.getcwd())
+from src.config import LLAMA_2_7B, W4A16
+from src.plots import (
+    plot_energy_and_latency_minimal,
+)
 from src.simulation import run_simulation
-from src.config import ALL_MODELS, BATCH_SIZE, LLAMA_2_7B, W4A16, W4A8, W8A8
 from src.util import (
     CME_T,
     Stage,
     get_cmes_full_model_from_pickle,
     get_experiment_id,
-)
-from src.plots import (
-    plot_energy_and_latency_minimal,
 )
 
 models = [LLAMA_2_7B]
@@ -42,7 +42,6 @@ if __name__ == "__main__":
     run_experiment()
 
     for model in models:
-
         cmes_per_arch: list[list[CME_T]] = []
 
         for accelerator, stage in itertools.product(accelerators, Stage):
