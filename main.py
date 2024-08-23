@@ -6,7 +6,7 @@ import os
 import sys
 
 sys.path.append(os.getcwd())
-from src.config import LLAMA_2_7B, W32A32
+from src.config import OPT_125M, W32A32
 from src.export_onnx import Stage
 from src.plots import plot_energy_and_latency
 from src.simulation import run_simulation
@@ -16,7 +16,10 @@ from src.util import (
     get_experiment_id,
 )
 
-model = LLAMA_2_7B
+model = OPT_125M
+model.batch_size = 1
+model.prefill_size = 256
+model.decode_size = 256
 quant = W32A32
 accelerator = "generic_array_32b"
 mapping_path = "inputs/mapping/weight_unrolled_256.yaml"

@@ -7,7 +7,7 @@ import os
 import sys
 
 sys.path.append(os.getcwd())
-from src.config import LLAMA_1_13B, W4A16
+from src.config import OPT_125M, W4A16
 from src.plots import (
     plot_energy_and_latency_minimal,
 )
@@ -19,15 +19,17 @@ from src.util import (
     get_experiment_id,
 )
 
-models = [LLAMA_1_13B]
+model = OPT_125M
 quant = W4A16
+model.prefill_size = 256
+model.decode_size = 256
 accelerators = ["generic_array_32b", "generic_array_edge_32b"]
 mapping_path = "inputs/mapping/weight_unrolled_256.yaml"
 out_path = "outputs/exp_compare_arch"
 
 
 def run_experiment():
-    for model, accelerator, stage in itertools.product(models, accelerators, Stage):
+    for accelerator, stage in itertools.product(accelerators, Stage):
         run_simulation(
             model=model,
             stage=stage,
@@ -41,20 +43,19 @@ def run_experiment():
 if __name__ == "__main__":
     run_experiment()
 
-    for model in models:
-        cmes_per_arch: list[list[CME_T]] = []
+    cmes_per_arch: list[list[CME_T]] = []
 
-        for accelerator, stage in itertools.product(accelerators, Stage):
-            experiment_name = get_experiment_id(model, stage, quant, accelerator)
-            pickle_filename = f"{out_path}/{experiment_name}/cmes.pickle"
-            cmes_full_model = get_cmes_full_model_from_pickle(pickle_filename, model, stage)
-            cmes_per_arch.append(cmes_full_model)
+    for accelerator, stage in itertools.product(accelerators, Stage):
+        experiment_name = get_experiment_id(model, stage, quant, accelerator)
+        pickle_filename = f"{out_path}/{experiment_name}/cmes.pickle"
+        cmes_full_model = get_cmes_full_model_from_pickle(pickle_filename, model, stage)
+        cmes_per_arch.append(cmes_full_model)
 
-        groups = ["Cloud\nprefill", "Cloud\ndecode", "Edge\nprefill", "Edge\ndecode"]
+    groups = ["Cloud\nprefill", "Cloud\ndecode", "Edge\nprefill", "Edge\ndecode"]
 
-        plot_energy_and_latency_minimal(
-            cmes_per_arch,
-            groups=groups,
-            title=f"{model.name} ({quant.name})",
-            filename=f"{out_path}/compare_energy_and_latency_{model.name}.png",
-        )
+    plot_energy_and_latency_minimal(
+        cmes_per_arch,
+        groups=groups,
+        title=f"{model.name} ({quant.name})",
+        filename=f"{out_path}/compare_energy_and_latency_{model.name}.png",
+    )

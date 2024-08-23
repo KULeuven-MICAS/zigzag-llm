@@ -44,7 +44,7 @@ class LLMConfig:
 
     @property
     def parameterized_name(self):
-        return f"{self.name.replace('.', '_')}_B={self.batch_size}"
+        return f"{self.name.replace('.', '_')}_B={self.batch_size}_tokens=({self.prefill_size}+{self.decode_size})"
 
     def to_simulatable_config(self):
         """Return a new LLMConfig instance with reduced parameters to make the simulation go faster. The results
