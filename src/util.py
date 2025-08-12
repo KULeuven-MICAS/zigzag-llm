@@ -6,8 +6,14 @@ import numpy as np
 
 from src.config import LLMConfig, QuantConfig
 
-LAYERS_TO_PLOT = ["key_proj", "mul_qk_t", "mul_logits", "feedforward_expand", "feedforward_contract"]
-GROUPS = ["Linear proj.", "Attention", "FFN"]
+LAYERS_TO_PLOT = [
+    "key_proj",
+    "mul_qk_t",
+    "mul_logits",
+    "feedforward_expand",
+    "feedforward_contract",
+]
+GROUPS = ["Lin. proj.", "Attention", "FFN"]
 
 CME_T = TypeVar("CME_T", Any, Any)  # CME type not available here
 ARRAY_T: TypeAlias = np.ndarray[Any, Any]
@@ -45,15 +51,22 @@ def get_cmes_to_plot(cmes: list[CME_T]):
     return result
 
 
-def get_cmes_full_model(cmes: list[CME_T], model: LLMConfig, stage: Stage = Stage.PREFILL):
+def get_cmes_full_model(
+    cmes: list[CME_T], model: LLMConfig, stage: Stage = Stage.PREFILL
+):
     """Generalize the zigzag results (for single layers) to a full LLM
     @param prefill: whether the results are from a prefill or decode phase simulation"""
     assert len(cmes) == 5, "These are not the `LAYERS_TO_PLOT`"
     number_of_runs = 1 if stage == Stage.PREFILL else model.decode_size
-    return [cme * model.get_post_simulation_multiplier(cme.layer.name) * number_of_runs for cme in cmes]
+    return [
+        cme * model.get_post_simulation_multiplier(cme.layer.name) * number_of_runs
+        for cme in cmes
+    ]
 
 
-def get_cmes_full_model_from_pickle(pickle_file: str, model: LLMConfig, stage: Stage) -> list[CME_T]:
+def get_cmes_full_model_from_pickle(
+    pickle_file: str, model: LLMConfig, stage: Stage
+) -> list[CME_T]:
     with open(pickle_file, "rb") as fp:
         cmes: list[CME_T] = pickle.load(fp)
 
@@ -62,7 +75,9 @@ def get_cmes_full_model_from_pickle(pickle_file: str, model: LLMConfig, stage: S
     return cmes
 
 
-def get_experiment_id(model: LLMConfig, stage: Stage, quant: QuantConfig, accelerator_name: str):
+def get_experiment_id(
+    model: LLMConfig, stage: Stage, quant: QuantConfig, accelerator_name: str
+):
     """Generate the name of the experiment"""
     return f"{model.parameterized_name}_{quant.name}_{stage}_{accelerator_name}"
 

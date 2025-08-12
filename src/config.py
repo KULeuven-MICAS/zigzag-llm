@@ -77,7 +77,9 @@ class QuantConfig:
     def __init__(self, weight_bits: int, act_bits: int, output_bits: int | None = None):
         self.weight_bits = weight_bits
         self.act_bits = act_bits
-        self.intermediate_output_bits = output_bits if output_bits is not None else 2 * act_bits
+        self.intermediate_output_bits = (
+            output_bits if output_bits is not None else 2 * act_bits
+        )
 
     @property
     def name(self):
