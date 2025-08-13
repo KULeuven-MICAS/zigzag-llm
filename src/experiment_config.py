@@ -46,7 +46,7 @@ def get_standard_decoding_config_prefill(context_len, out_prefix):
         quant=W32A32,
         accelerator=ACCELERATOR,
         mapping_path=MAPPING,
-        out_path=os.path.join(out_prefix, "standard/"),
+        out_path=os.path.join(out_prefix, "standard/prefill/"),
     )
 
 
@@ -60,7 +60,7 @@ def get_standard_decoding_config_decode(context_len, decode_len, out_prefix):
         quant=W32A32,
         accelerator=ACCELERATOR,
         mapping_path=MAPPING,
-        out_path=os.path.join(out_prefix, "standard/"),
+        out_path=os.path.join(out_prefix, "standard/decode/"),
     )
 
 

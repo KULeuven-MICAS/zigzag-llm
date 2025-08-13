@@ -18,3 +18,15 @@ $ python main.py
 
 The result should look like this:
 ![image](https://github.com/user-attachments/assets/453ce332-f3a9-4cfd-af98-bbb578768c9e)
+
+
+## Speculative decoding
+
+To run speculative decoding simulations you have to run:
+python main_speculative_v2.py
+python parse_v2_results.py
+python plot_v2_results.py
+
+If you want to include standard decoding in the plot to compare it to speculative decoding, you also need to run a simulation and parsing for the standard case by running:
+python main_standard.py
+python parse_standard_results.py
