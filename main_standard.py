@@ -26,7 +26,7 @@ from src.simulation import run_simulation
 
 CONTEXT_LEN = 256
 DECODE_LEN = 256
-OUT_PREFIX = f"outputs/context_{CONTEXT_LEN}_decode_{DECODE_LEN}/"
+OUT_PREFIX = f"outputs/v2/standard/context_{CONTEXT_LEN}_decode_{DECODE_LEN}/"
 
 
 def run_experiment():
