@@ -23,10 +23,16 @@ The result should look like this:
 ## Speculative decoding
 
 To run speculative decoding simulations you have to run:
-python main_speculative_v2.py
-python parse_v2_results.py
-python plot_v2_results.py
+```
+$ source env/bin/activate
+$ python main_speculative_v2.py
+$ python parse_v2_results.py
+$ python plot_v2_results.py
+```
 
 If you want to include standard decoding in the plot to compare it to speculative decoding, you also need to run a simulation and parsing for the standard case by running:
-python main_standard.py
-python parse_standard_results.py
+```
+$ source env/bin/activate
+$ python main_standard.py
+$ python parse_standard_results.py
+```
