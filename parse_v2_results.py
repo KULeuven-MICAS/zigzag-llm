@@ -105,7 +105,7 @@ def main():
     CONTEXT_LEN = 256
     DECODE_LEN = 256
     DRAFT_DECODE_LEN = 5
-    OUT_PREFIX = f"outputs/df_balanced_quant/initial_context_{CONTEXT_LEN}_to_decode_{DECODE_LEN}_total_with_{DRAFT_DECODE_LEN}_draft_decode/"
+    OUT_PREFIX = f"outputs/df_balanced_2_quant/initial_context_{CONTEXT_LEN}_to_decode_{DECODE_LEN}_total_with_{DRAFT_DECODE_LEN}_draft_decode/"
     SAMPLE_IDS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]  # others are still running
 
     total_energy, total_latency, num_samples = process_samples(OUT_PREFIX, SAMPLE_IDS)

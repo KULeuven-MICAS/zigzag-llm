@@ -1,0 +1,8 @@
+- name: default
+  spatial_mapping:
+    D1:
+      - D, 1
+    D2:
+      - C, 128
+    D2:
+      - K, 32

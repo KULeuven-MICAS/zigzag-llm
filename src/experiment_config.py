@@ -2,7 +2,7 @@ import os
 
 from zigzag.utils import pickle_deepcopy
 
-from src.config import LLAMA_2_7B, OPT_125M, W32A32, W8I8O32
+from src.config import LLAMA_2_7B, OPT_125M, LLAMA_3_3B, W32A32, W8I8O32
 from src.util import Stage
 
 
@@ -29,6 +29,35 @@ class ExperimentConfig:
         self.mapping_path = mapping_path
         self.out_path = out_path
 
+## Llama-3.2-3B config
+ACCELERATOR_LLAMA3_PREFILL = "balanced_df_16_16_16_new"
+MAPPING_LLAMA3_PREFILL = "inputs/mapping/balanced_df_16_16_16.yaml"
+def get_llama3_decoding_config_prefill(context_len, out_prefix):
+    return ExperimentConfig(
+        model=pickle_deepcopy(LLAMA_3_3B),
+        stage=Stage.PREFILL,
+        batch_size=1,
+        prefill_size=context_len,
+        decode_size=1,
+        quant=W8I8O32,
+        accelerator=ACCELERATOR_LLAMA3_PREFILL,
+        mapping_path=MAPPING_LLAMA3_PREFILL,
+        out_path=os.path.join(out_prefix, "standard/prefill/"),
+    )
+ACCELERATOR_LLAMA3_DECODE = "balanced_df_1_128_32_new"
+MAPPING_LLAMA3_DECODE = "inputs/mapping/balanced_df_1_128_32.yaml"
+def get_llama3_decoding_config_decode(context_len, out_prefix):
+    return ExperimentConfig(
+        model=pickle_deepcopy(LLAMA_3_3B),
+        stage=Stage.DECODE,
+        batch_size=1,
+        prefill_size=context_len,
+        decode_size=1,
+        quant=W8I8O32,
+        accelerator=ACCELERATOR_LLAMA3_DECODE,
+        mapping_path=MAPPING_LLAMA3_DECODE,
+        out_path=os.path.join(out_prefix, "standard/decode/"),
+    )
 
 ## STANDARD AND SPECULATIVE DECODING EXPERIMENT PARAMETERS
 # ACCELERATOR = "balanced_df_16_8_8"

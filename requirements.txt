@@ -1,4 +1,4 @@
-zigzag-dse==3.6.0
+zigzag-dse==3.8.5
 torch
 onnx
 seaborn

@@ -150,6 +150,17 @@ LLAMA_2_13B = LLMConfig(
     name="Llama2-13B",
 )
 
+LLAMA_3_3B = LLMConfig(
+    batch_size=BATCH_SIZE,
+    seq_len=4096,
+    embedding_dim=3072,
+    dim_ff=8192,
+    num_head=24,
+    num_layer=28,
+    vocab_size=128256,
+    name="Llama3-3B",
+)
+
 
 OPT_125M = LLMConfig(
     batch_size=BATCH_SIZE,
