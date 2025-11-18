@@ -1,0 +1,126 @@
+name: balanced_df_16_8_8
+
+# balanced dataflow with 16x8x8 PE array
+# Assumed 1 GHz clock
+# On-chip: 128 KB @ 256 GB/s on-chip buffer
+# Off-chip: DRAM @ 32 GB/s
+
+# Energy values
+# DRAM: 10 pJ/bit
+# SRAM: 1 pJ/bit
+# RF:   0.01 pJ/bit
+# MAC:  0.01 pJ/bit
+# w_cost = 1.5x r_cost
+
+memories:
+  rf_O:
+    size: 32
+    r_cost: 0.8
+    w_cost: 0.8
+    area: 0
+    latency: 1
+    operands: [O]
+    ports:
+      - name: r_port_1
+        type: read
+        bandwidth_min: 32
+        bandwidth_max: 32
+        allocation: 
+          - O, tl
+      - name: w_port_1
+        type: write
+        bandwidth_min: 32
+        bandwidth_max: 32
+        allocation: 
+          - O, fh
+      - name: r_port_2
+        type: read
+        bandwidth_min: 32
+        bandwidth_max: 32
+        allocation: 
+          - O, th
+      - name: w_port_2
+        type: write
+        bandwidth_min: 32
+        bandwidth_max: 32
+        allocation: 
+          - O, fl
+    served_dimensions: []
+
+  sram_128KB:
+    size: 1048576
+    r_cost: 2048  # /4 compared to FLAT paper since 4x less bandwidth
+    w_cost: 2048  # /4 compared to FLAT paper since 4x less bandwidth
+    area: 0
+    latency: 1
+    operands: [I1, I2, O]
+    ports:
+      - name: r_port_1
+        type: read
+        bandwidth_min: 2048
+        bandwidth_max: 2048
+        allocation: 
+          - I1, tl
+      - name: w_port_1
+        type: write
+        bandwidth_min: 2048
+        bandwidth_max: 2048
+        allocation: 
+          - I1, fh
+      - name: r_port_2
+        type: read
+        bandwidth_min: 2048
+        bandwidth_max: 2048
+        allocation: 
+          - I2, tl
+      - name: w_port_2
+        type: write
+        bandwidth_min: 2048
+        bandwidth_max: 2048
+        allocation: 
+          - I2, fh
+      - name: r_port_3
+        type: read
+        bandwidth_min: 2048
+        bandwidth_max: 2048
+        allocation: 
+          - O, tl
+          - O, th
+      - name: w_port_3
+        type: write
+        bandwidth_min: 2048
+        bandwidth_max: 2048
+        allocation: 
+          - O, fl
+          - O, fh
+    served_dimensions: [D1, D2, D3]
+
+  dram:
+    # From FLAT paper: 400 GB/s off-chip BW
+    size: 10000000000
+    r_cost: 4096
+    w_cost: 4096
+    area: 0
+    latency: 1
+    operands: [I1, I2, O]
+    ports:
+      - name: rw_port_1
+        type: read_write
+        bandwidth_min: 256
+        bandwidth_max: 256
+        allocation: 
+          - I1, tl
+          - I2, tl
+          - O, tl
+          - I1, fh
+          - I2, fh
+          - O, fh
+          - O, fl
+          - O, th
+    served_dimensions: [D1, D2, D3]
+
+operational_array:
+  unit_energy: 1.5
+  unit_area: 1 # unit
+  dimensions: [D1, D2, D3]  # D2 is accumulation dimension (Cu in ZigZag)
+  sizes: [16, 8, 8]

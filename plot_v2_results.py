@@ -81,11 +81,11 @@ def plot_energy_and_latency_box(sample_data, standard_data, out_prefix, include_
     fig, axes = plt.subplots(2, 1, figsize=(6, 10), sharex=False)
 
     # Energy box plot
-    sns.boxplot(y=energies, ax=axes[0], color="skyblue", width=0.4, linewidth=1.5)
+    sns.boxplot(y=energies, ax=axes[0], color="skyblue", width=0.4, linewidth=1.5, zorder=1)
     avg_energy = sum(energies) / len(energies)
-    axes[0].axhline(avg_energy, color="blue", linestyle="--", linewidth=1.5, label=f"Average: {avg_energy:.2e}")
+    axes[0].axhline(avg_energy, color="blue", linestyle="--", linewidth=1.5, label=f"Average: {avg_energy:.2e}", zorder=2)
     if include_standard and standard_data:
-        axes[0].scatter([0], [standard_data["energy"]], color="red", marker="s", s=100, label=f"Standard: {standard_data['energy']:.2e}")
+        axes[0].scatter([0], [standard_data["energy"]], color="red", marker="s", s=100, label=f"Standard: {standard_data['energy']:.2e}", zorder=3)
     axes[0].set_title("Energy Distribution Across Samples", fontsize=14)
     axes[0].set_ylabel("Energy", fontsize=12)
     axes[0].tick_params(axis='y', labelsize=10)
@@ -117,8 +117,8 @@ def main():
     CONTEXT_LEN = 256
     DECODE_LEN = 256
     DRAFT_DECODE_LEN = 5
-    OUT_PREFIX = f"outputs/v2/initial_context_{CONTEXT_LEN}_to_decode_{DECODE_LEN}_total_with_{DRAFT_DECODE_LEN}_draft_decode/"
-    STANDARD_PATH = f"outputs/v2/standard/context_{CONTEXT_LEN}_decode_{DECODE_LEN}/standard/"
+    OUT_PREFIX = f"outputs/df_balanced_quant/initial_context_{CONTEXT_LEN}_to_decode_{DECODE_LEN}_total_with_{DRAFT_DECODE_LEN}_draft_decode/"
+    STANDARD_PATH = f"outputs/df_balanced_quant/standard/context_{CONTEXT_LEN}_decode_{DECODE_LEN}/standard/"
 
     sample_data = load_sample_data(OUT_PREFIX)
     standard_data = load_standard_data(STANDARD_PATH)
@@ -127,9 +127,9 @@ def main():
         print("No sample data found. Ensure the parse script has been run.")
         return
 
-    include_standard = True  # Set this flag to include or exclude the standard point
+    include_standard = True  # Set this flag to include or exclude the standard point in box plot
 
-    plot_energy_and_latency_line(sample_data, standard_data, OUT_PREFIX, include_standard)
+    plot_energy_and_latency_line(sample_data, standard_data, OUT_PREFIX, False)
     plot_energy_and_latency_box(sample_data, standard_data, OUT_PREFIX, include_standard)
 
 if __name__ == "__main__":

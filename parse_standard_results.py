@@ -49,7 +49,7 @@ def write_standard_results(standard_path, energy, latency):
     print(f"Standard results written to {output_file}")
 
 def main():
-    STANDARD_PATH = "outputs/v2/standard/context_256_decode_256/standard/"
+    STANDARD_PATH = "outputs/df_balanced_2_quant/standard/context_256_decode_256/standard/"
 
     energy, latency = parse_standard_results(STANDARD_PATH)
     print(f"Standard Energy: {energy:.2e}")

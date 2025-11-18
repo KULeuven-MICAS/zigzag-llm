@@ -30,7 +30,7 @@ NB_SAMPLES = 16
 CONTEXT_LEN = 256
 DECODE_LEN = 256
 DRAFT_DECODE_LEN = 5
-OUT_PREFIX = f"outputs/v2/initial_context_{CONTEXT_LEN}_to_decode_{DECODE_LEN}_total_with_{DRAFT_DECODE_LEN}_draft_decode/"
+OUT_PREFIX = f"outputs/df_balanced_2_quant/initial_context_{CONTEXT_LEN}_to_decode_{DECODE_LEN}_total_with_{DRAFT_DECODE_LEN}_draft_decode/"
 
 def sample_accepted_tokens(max_tokens=5, p=0.8):
     for k in range(max_tokens):

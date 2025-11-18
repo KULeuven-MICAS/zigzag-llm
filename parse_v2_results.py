@@ -79,13 +79,17 @@ def calculate_and_write_averages(out_prefix, total_energy, total_latency, num_sa
         json.dump(avg_output_data, f, indent=4)
     print(f"Average results written to {avg_output_file}")
 
-def process_samples(out_prefix):
+def process_samples(out_prefix, sample_ids):
     """Process all samples in the output directory."""
     total_energy_all_samples = 0
     total_latency_all_samples = 0
     num_samples = 0
 
     for sample_folder in sorted(os.listdir(out_prefix)):
+        sample_id = int(sample_folder.split('_')[-1])
+        if sample_id not in sample_ids:
+            print(f"Skipping sample {sample_id}")
+            continue
         sample_path = os.path.join(out_prefix, sample_folder)
         if os.path.isdir(sample_path):
             energy, latency = parse_sample_results(sample_path)
@@ -101,9 +105,10 @@ def main():
     CONTEXT_LEN = 256
     DECODE_LEN = 256
     DRAFT_DECODE_LEN = 5
-    OUT_PREFIX = f"outputs/v2/initial_context_{CONTEXT_LEN}_to_decode_{DECODE_LEN}_total_with_{DRAFT_DECODE_LEN}_draft_decode/"
+    OUT_PREFIX = f"outputs/df_balanced_quant/initial_context_{CONTEXT_LEN}_to_decode_{DECODE_LEN}_total_with_{DRAFT_DECODE_LEN}_draft_decode/"
+    SAMPLE_IDS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]  # others are still running
 
-    total_energy, total_latency, num_samples = process_samples(OUT_PREFIX)
+    total_energy, total_latency, num_samples = process_samples(OUT_PREFIX, SAMPLE_IDS)
     print(f"Total Energy (All Samples): {total_energy:.2e}")
     print(f"Total Latency (All Samples): {total_latency:.2e}")
 

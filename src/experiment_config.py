@@ -2,7 +2,7 @@ import os
 
 from zigzag.utils import pickle_deepcopy
 
-from src.config import LLAMA_2_7B, OPT_125M, W32A32
+from src.config import LLAMA_2_7B, OPT_125M, W32A32, W8I8O32
 from src.util import Stage
 
 
@@ -31,9 +31,10 @@ class ExperimentConfig:
 
 
 ## STANDARD AND SPECULATIVE DECODING EXPERIMENT PARAMETERS
-ACCELERATOR = "generic_array_32b"
-MAPPING = "inputs/mapping/weight_unrolled_256.yaml"
-
+# ACCELERATOR = "balanced_df_16_8_8"
+# MAPPING = "inputs/mapping/balanced_df_16_8_8.yaml"
+ACCELERATOR = "balanced_df_1_64_16"
+MAPPING = "inputs/mapping/balanced_df_1_64_16.yaml"
 
 ## STANDARD DECODING EXPERIMENT CONFIGURATIONS
 def get_standard_decoding_config_prefill(context_len, out_prefix):
@@ -43,7 +44,7 @@ def get_standard_decoding_config_prefill(context_len, out_prefix):
         batch_size=1,
         prefill_size=context_len,
         decode_size=1,
-        quant=W32A32,
+        quant=W8I8O32,
         accelerator=ACCELERATOR,
         mapping_path=MAPPING,
         out_path=os.path.join(out_prefix, "standard/prefill/"),
@@ -57,54 +58,9 @@ def get_standard_decoding_config_decode(context_len, decode_len, out_prefix):
         batch_size=1,
         prefill_size=context_len,
         decode_size=decode_len,
-        quant=W32A32,
+        quant=W8I8O32,
         accelerator=ACCELERATOR,
         mapping_path=MAPPING,
         out_path=os.path.join(out_prefix, "standard/decode/"),
     )
 
-
-# SPECULATIVE DECODING EXPERIMENT CONFIGURATIONS
-def get_speculative_draft_config(context_len, decode_len, out_prefix):
-    return ExperimentConfig(
-        model=pickle_deepcopy(OPT_125M),
-        stage=Stage.DECODE,
-        batch_size=1,
-        prefill_size=context_len,
-        decode_size=decode_len,
-        quant=W32A32,
-        accelerator=ACCELERATOR,
-        mapping_path=MAPPING,
-        out_path=os.path.join(out_prefix, "speculative/draft/"),
-    )
-
-
-def get_speculative_target_verification_config(context_len, out_prefix):
-    # D. Target model prefill [ctx_len + decode_len] --> [ctx_len + decode_len + 1] (to get logits)
-    return ExperimentConfig(
-        model=pickle_deepcopy(LLAMA_2_7B),
-        stage=Stage.PREFILL,
-        batch_size=1,
-        prefill_size=context_len,
-        decode_size=1,
-        quant=W32A32,
-        accelerator=ACCELERATOR,
-        mapping_path=MAPPING,
-        out_path=os.path.join(out_prefix, "speculative/verification/"),
-    )
-
-
-def get_speculative_target_fallback_config(context_len, decode_len, out_prefix):
-    # E. Target decode [ctx_len + k] --> [ctx_len + decode_len - k] for k in range(decode_len)
-    # prefill_size, decode_size and out_path should be set in script depending on acceptance rate
-    return ExperimentConfig(
-        model=pickle_deepcopy(LLAMA_2_7B),
-        stage=Stage.DECODE,
-        batch_size=1,
-        prefill_size=context_len,
-        decode_size=decode_len,
-        quant=W32A32,
-        accelerator=ACCELERATOR,
-        mapping_path=MAPPING,
-        out_path=os.path.join(out_prefix, "speculative/fallback/"),
-    )

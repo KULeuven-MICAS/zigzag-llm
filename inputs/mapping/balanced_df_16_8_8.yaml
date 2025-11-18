@@ -1,0 +1,9 @@
+- name: default
+  core_allocation: [1]
+  spatial_mapping:
+    D1:
+      - D, 16
+    D2:
+      - C, 8
+    D2:
+      - K, 8
