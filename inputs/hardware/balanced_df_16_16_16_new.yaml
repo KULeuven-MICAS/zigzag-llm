@@ -106,8 +106,8 @@ memories:
     ports:
       - name: rw_port_1
         type: read_write
-        bandwidth_min: 256
-        bandwidth_max: 256
+        bandwidth_min: 16384 # mimic unlimited BW for now
+        bandwidth_max: 16384 # mimic unlimited BW for now
         allocation: 
           - I1, tl
           - I2, tl
