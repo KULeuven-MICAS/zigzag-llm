@@ -1,4 +1,4 @@
-name: balanced_df_1_64_16
+name: balanced_df_16_16_16
 
 # balanced dataflow with 1x64x16 PE array
 # Assumed 1 GHz clock

@@ -63,7 +63,8 @@ def run_simulation(
         opt=opt_criterion,
         dump_folder=dump_path,
         pickle_filename=pickle_filename,
-        nb_spatial_mappings_generated=3,
+        nb_spatial_mappings_generated=1,
+        temporal_mapping_type="even",
     )
 
     with open(pickle_filename, "rb") as fp:

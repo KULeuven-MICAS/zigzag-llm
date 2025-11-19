@@ -19,13 +19,14 @@ import sys
 sys.path.append(os.getcwd())
 # import speculative experiment configs
 from src.experiment_config import (
+    get_llama3_decoding_config_decode,
     get_llama3_decoding_config_prefill,
 )
 from src.simulation import run_simulation
 
 CONTEXT_LEN = 4096
 DECODE_LEN = 1
-OUT_PREFIX = f"outputs/llama3_higher_bw/"
+OUT_PREFIX = f"outputs/llama3_unlimited_bw_even/"
 
 
 def run_experiment():
@@ -42,6 +43,18 @@ def run_experiment():
         output_dir=standard_prefill_config.out_path,
     )
 
+    # Run decode
+    standard_decode_config = get_llama3_decoding_config_decode(
+        context_len=CONTEXT_LEN, out_prefix=OUT_PREFIX
+    )
+    run_simulation(
+        model=standard_decode_config.model,
+        stage=standard_decode_config.stage,
+        quant=standard_decode_config.quant,
+        accelerator_name=standard_decode_config.accelerator,
+        mapping_path=standard_decode_config.mapping_path,
+        output_dir=standard_decode_config.out_path,
+    )
 
 if __name__ == "__main__":
     run_experiment()
