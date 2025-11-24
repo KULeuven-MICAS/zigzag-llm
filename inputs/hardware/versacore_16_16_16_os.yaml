@@ -47,8 +47,8 @@ memories:
           - O, fl
     served_dimensions: []
 
-  sram_128KB:
-    size: 1048576
+  sram_1MB:
+    size: 8388608 # in bits, 1MB
     r_cost: 2048  # /4 compared to FLAT paper since 4x less bandwidth
     w_cost: 2048  # /4 compared to FLAT paper since 4x less bandwidth
     area: 0
