@@ -1,0 +1,15 @@
+- name: default
+  spatial_mapping:
+    D1:
+      - D, 1
+    D2:
+      - C, 32
+    D3:
+      - K, 32
+  temporal_ordering:
+    - [C, "*"]
+    - [C, "*"]
+    - [K, "*"]
+    - [K, "*"]
+    # - [D, "*"]
+    # - [D, "*"]

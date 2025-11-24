@@ -30,8 +30,8 @@ class ExperimentConfig:
         self.out_path = out_path
 
 ## Llama-3.2-3B config
-ACCELERATOR_LLAMA3_PREFILL = "balanced_df_16_16_16_new"
-MAPPING_LLAMA3_PREFILL = "inputs/mapping/balanced_df_16_16_16.yaml"
+ACCELERATOR_LLAMA3_PREFILL = "versacore_16_16_16_os"
+MAPPING_LLAMA3_PREFILL = "inputs/mapping/versacore_mapping_16_16_16_os.yaml"
 def get_llama3_decoding_config_prefill(context_len, out_prefix):
     return ExperimentConfig(
         model=pickle_deepcopy(LLAMA_3_3B),
@@ -44,8 +44,8 @@ def get_llama3_decoding_config_prefill(context_len, out_prefix):
         mapping_path=MAPPING_LLAMA3_PREFILL,
         out_path=os.path.join(out_prefix, "standard/prefill/"),
     )
-ACCELERATOR_LLAMA3_DECODE = "balanced_df_1_32_32_new"
-MAPPING_LLAMA3_DECODE = "inputs/mapping/balanced_df_1_32_32.yaml"
+ACCELERATOR_LLAMA3_DECODE = "versacore_1_32_32_os"
+MAPPING_LLAMA3_DECODE = "inputs/mapping/versacore_mapping_1_32_32_os.yaml"
 def get_llama3_decoding_config_decode(context_len, out_prefix):
     return ExperimentConfig(
         model=pickle_deepcopy(LLAMA_3_3B),
