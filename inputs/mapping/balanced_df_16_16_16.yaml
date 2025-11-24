@@ -4,5 +4,10 @@
       - D, 16
     D2:
       - C, 16
-    D2:
+    D3:
       - K, 16
+  # temporal_mapping:
+  #   D2:
+  #   D1:
+  #   D3:
+

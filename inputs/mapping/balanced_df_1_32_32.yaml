@@ -3,6 +3,10 @@
     D1:
       - D, 1
     D2:
-      - C, 128
-    D2:
+      - C, 32
+    D3:
       - K, 32
+  # temporal_mapping:
+  #   D2:
+  #   D1:
+  #   D3:

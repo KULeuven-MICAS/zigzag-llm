@@ -57,39 +57,39 @@ memories:
     ports:
       - name: r_port_1
         type: read
-        bandwidth_min: 8192
-        bandwidth_max: 8192
+        bandwidth_min: 16384
+        bandwidth_max: 16384
         allocation: 
           - I1, tl
       - name: w_port_1
         type: write
-        bandwidth_min: 8192
-        bandwidth_max: 8192
+        bandwidth_min: 16384
+        bandwidth_max: 16384
         allocation: 
           - I1, fh
       - name: r_port_2
         type: read
-        bandwidth_min: 8192
-        bandwidth_max: 8192
+        bandwidth_min: 16384
+        bandwidth_max: 16384
         allocation: 
           - I2, tl
       - name: w_port_2
         type: write
-        bandwidth_min: 8192
-        bandwidth_max: 8192
+        bandwidth_min: 16384
+        bandwidth_max: 16384
         allocation: 
           - I2, fh
       - name: r_port_3
         type: read
-        bandwidth_min: 8192
-        bandwidth_max: 8192
+        bandwidth_min: 16384
+        bandwidth_max: 16384
         allocation: 
           - O, tl
           - O, th
       - name: w_port_3
         type: write
-        bandwidth_min: 8192
-        bandwidth_max: 8192
+        bandwidth_min: 16384
+        bandwidth_max: 16384
         allocation: 
           - O, fl
           - O, fh
@@ -106,8 +106,8 @@ memories:
     ports:
       - name: rw_port_1
         type: read_write
-        bandwidth_min: 256
-        bandwidth_max: 256
+        bandwidth_min: 16384
+        bandwidth_max: 16384
         allocation: 
           - I1, tl
           - I2, tl
@@ -124,4 +124,4 @@ operational_array:
   unit_energy: 1.5
   unit_area: 1 # unit
   dimensions: [D1, D2, D3]  # D2 is accumulation dimension (Cu in ZigZag)
-  sizes: [1, 128, 32]
+  sizes: [1, 32, 32]

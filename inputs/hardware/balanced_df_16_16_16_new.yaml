@@ -57,39 +57,39 @@ memories:
     ports:
       - name: r_port_1
         type: read
-        bandwidth_min: 16384
-        bandwidth_max: 16384
+        bandwidth_min: 8192
+        bandwidth_max: 8192
         allocation: 
           - I1, tl
       - name: w_port_1
         type: write
-        bandwidth_min: 16384
-        bandwidth_max: 16384
+        bandwidth_min: 8192
+        bandwidth_max: 8192
         allocation: 
           - I1, fh
       - name: r_port_2
         type: read
-        bandwidth_min: 16384
-        bandwidth_max: 16384
+        bandwidth_min: 8192
+        bandwidth_max: 8192
         allocation: 
           - I2, tl
       - name: w_port_2
         type: write
-        bandwidth_min: 16384
-        bandwidth_max: 16384
+        bandwidth_min: 8192
+        bandwidth_max: 8192
         allocation: 
           - I2, fh
       - name: r_port_3
         type: read
-        bandwidth_min: 16384
-        bandwidth_max: 16384
+        bandwidth_min: 8192
+        bandwidth_max: 8192
         allocation: 
           - O, tl
           - O, th
       - name: w_port_3
         type: write
-        bandwidth_min: 16384
-        bandwidth_max: 16384
+        bandwidth_min: 8192
+        bandwidth_max: 8192
         allocation: 
           - O, fl
           - O, fh

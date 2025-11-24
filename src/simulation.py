@@ -30,7 +30,7 @@ def run_simulation(
     mapping_path: str,
     output_dir: str,
     *,
-    opt_criterion: str = "EDP",
+    opt_criterion: str = "latency",
     experiment_id: str | None = None,
     onnx_path: str | None = None,
     dump_path: str | None = None,

@@ -44,8 +44,8 @@ def get_llama3_decoding_config_prefill(context_len, out_prefix):
         mapping_path=MAPPING_LLAMA3_PREFILL,
         out_path=os.path.join(out_prefix, "standard/prefill/"),
     )
-ACCELERATOR_LLAMA3_DECODE = "balanced_df_1_128_32_new"
-MAPPING_LLAMA3_DECODE = "inputs/mapping/balanced_df_1_128_32.yaml"
+ACCELERATOR_LLAMA3_DECODE = "balanced_df_1_32_32_new"
+MAPPING_LLAMA3_DECODE = "inputs/mapping/balanced_df_1_32_32.yaml"
 def get_llama3_decoding_config_decode(context_len, out_prefix):
     return ExperimentConfig(
         model=pickle_deepcopy(LLAMA_3_3B),
