@@ -58,7 +58,7 @@ class LLMConfig:
         """The model is simulated with reduced parameters i.e. only one layer. This function returns the factor with
         which the results for the given layer have to be multiplied in order to come to the result for the full model
         Moreover, the results are normalized to a single inference instead of a full batch"""
-        assert self.num_layer > 1, "Is this method called on a `simulatable` config?"
+        assert self.num_layer >= 1, "Is this method called on a `simulatable` config?"
         # K, Q, V and output projection
         if "_proj" in layer:
             return 4 * self.num_layer / self.batch_size
@@ -148,6 +148,29 @@ LLAMA_2_13B = LLMConfig(
     num_layer=40,
     vocab_size=32_000,
     name="Llama2-13B",
+)
+
+LLAMA_3_1_8B = LLMConfig(
+    batch_size=BATCH_SIZE,
+    seq_len=4096,           # hidden_size: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
+    embedding_dim=131_072,  # max_position_embeddings: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
+    # embedding_dim=2048,  # max_position_embeddings: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
+    dim_ff=14_336,          # intermediate_size: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
+    num_head=32,            # num_attention_heads: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
+    num_layer=32,           # num_hidden_layers: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
+    vocab_size=128_256,     # vocab_size: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
+    name="Llama3.1-8B",
+)
+
+LLAMA_3_1_8B_EAGLE3_DRAFT = LLMConfig(
+    batch_size=BATCH_SIZE,
+    seq_len=4096,           # hidden_size: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
+    embedding_dim=2048,     # max_position_embeddings: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
+    dim_ff=14_336,          # intermediate_size: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
+    num_head=32,            # num_attention_heads: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
+    num_layer=1,            # num_hidden_layers: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
+    vocab_size=128_256,     # vocab_size: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
+    name="Llama3.1-8B-Eagle3-Draft",
 )
 
 LLAMA_3_3B = LLMConfig(
