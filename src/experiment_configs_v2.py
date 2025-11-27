@@ -7,10 +7,12 @@ from src.util import Stage
 from src.experiment_config import ExperimentConfig
 
 ## STANDARD AND SPECULATIVE DECODING EXPERIMENT PARAMETERS
-ACCELERATOR = "balanced_df_16_8_8"
-MAPPING = "inputs/mapping/balanced_df_16_8_8.yaml"
+# ACCELERATOR = "balanced_df_16_8_8"
+# MAPPING = "inputs/mapping/balanced_df_16_8_8.yaml"
 # ACCELERATOR = "balanced_df_1_64_16"
 # MAPPING = "inputs/mapping/balanced_df_1_64_16.yaml"
+ACCELERATOR = "balanced_df_16_16_16_new"
+MAPPING = "inputs/mapping/balanced_df_16_16_16.yaml"
 
 def get_speculative_draft_config_prefill(context_len, out_prefix):
     return ExperimentConfig(
