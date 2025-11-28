@@ -15,8 +15,9 @@ class LLMConfig:
         vocab_size: int = 1000,
         name: str = "",
     ):
+        # [TODO] Chao: Support GQA Simulation?
         self.batch_size = batch_size
-        self.__seq_len = seq_len
+        self.__seq_len = seq_len            # Chao: Here is the maximum supported sequence length
         self.embedding_dim = embedding_dim
         self.dim_ff = dim_ff
         self.num_head = num_head
@@ -25,6 +26,7 @@ class LLMConfig:
         self.vocab_size = vocab_size
         self.__name = name
 
+        # [TODO] Chao: An approximate idea, and the simulation error needs to be evaluated.
         # Simulate prefill with half of the context window.
         self.prefill_size = self.__seq_len // 2
         self.decode_size = self.__seq_len // 2
@@ -152,9 +154,8 @@ LLAMA_2_13B = LLMConfig(
 
 LLAMA_3_1_8B = LLMConfig(
     batch_size=BATCH_SIZE,
-    seq_len=4096,           # hidden_size: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
-    embedding_dim=131_072,  # max_position_embeddings: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
-    # embedding_dim=2048,  # max_position_embeddings: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
+    seq_len=131_072,        # max_position_embeddings: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
+    embedding_dim=4096,     # hidden_size: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json  
     dim_ff=14_336,          # intermediate_size: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
     num_head=32,            # num_attention_heads: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
     num_layer=32,           # num_hidden_layers: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/config.json
@@ -164,8 +165,8 @@ LLAMA_3_1_8B = LLMConfig(
 
 LLAMA_3_1_8B_EAGLE3_DRAFT = LLMConfig(
     batch_size=BATCH_SIZE,
-    seq_len=4096,           # hidden_size: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
-    embedding_dim=2048,     # max_position_embeddings: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
+    seq_len=2048,           # max_position_embeddings: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
+    embedding_dim=4096,     # hidden_size: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
     dim_ff=14_336,          # intermediate_size: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
     num_head=32,            # num_attention_heads: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
     num_layer=1,            # num_hidden_layers: https://huggingface.co/yuhuili/EAGLE3-LLaMA3.1-Instruct-8B/blob/main/config.json
@@ -175,7 +176,7 @@ LLAMA_3_1_8B_EAGLE3_DRAFT = LLMConfig(
 
 LLAMA_3_3B = LLMConfig(
     batch_size=BATCH_SIZE,
-    seq_len=4096,
+    seq_len=131_072,
     embedding_dim=3072,
     dim_ff=8192,
     num_head=24,
