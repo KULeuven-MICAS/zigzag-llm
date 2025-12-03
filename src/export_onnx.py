@@ -6,8 +6,9 @@ import torch
 from onnx import NodeProto
 
 from src.config import LLAMA_1_7B, W8A8, LLMConfig, QuantConfig
-from src.transformer_model import LanguageModel
+from src.transformer_model_prefill import LanguageModelPrefill
 from src.transformer_model_decode import LanguageModelDecode
+from src.transformer_model_verify import LanguageModelVerify
 from src.util import Stage
 
 
@@ -20,11 +21,17 @@ def export_transformer_to_onnx(
     print(f"Generating ONNX model at {path} ({stage})")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     if stage == Stage.PREFILL:
-        model = LanguageModel(llm_config)
+        model = LanguageModelPrefill(llm_config)
         dummy_input = torch.randint(low=0, high=255, size=(llm_config.batch_size, llm_config.prefill_size))
-    else:
+    elif stage == Stage.DECODE:
         model = LanguageModelDecode(llm_config)
         dummy_input = torch.randint(low=0, high=255, size=(llm_config.batch_size, 1))  # Single token
+    elif stage == Stage.VERIFY:
+        model = LanguageModelVerify(llm_config)
+        # [TODO] Chao: Check if llm_config is correctly set for verify stage
+        dummy_input = torch.randint(low=0, high=255, size=(llm_config.batch_size, llm_config.prefill_size))
+    else:
+        raise ValueError(f"Unknown stage: {stage}")
 
     torch.onnx.export(  # type: ignore
         model,

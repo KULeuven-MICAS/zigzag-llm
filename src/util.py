@@ -22,6 +22,7 @@ ARRAY_T: TypeAlias = np.ndarray[Any, Any]
 class Stage(StrEnum):
     PREFILL = "prefill"
     DECODE = "decode"
+    VERIFY = "verify"
 
 
 def generalize_layer_name(layer: str):
@@ -81,7 +82,7 @@ def get_experiment_id(
     """Generate the name of the experiment"""
     return f"{model.parameterized_name}_{quant.name}_{stage}_{accelerator_name}"
 
-
+# [TODO] Chao: Maybe I will make the datapath configurable.
 def get_onnx_path(model: LLMConfig, stage: Stage, quant: QuantConfig):
     ONNX_DIR = "outputs/onnx"
     return f"{ONNX_DIR}/{model.parameterized_name}_{quant.name}_{stage}.onnx"

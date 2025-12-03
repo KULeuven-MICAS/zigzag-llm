@@ -14,6 +14,7 @@ class ExperimentConfig:
         batch_size=1,
         prefill_size=256,
         decode_size=256,
+        verify_size=64,
         quant=W32A32,
         accelerator="generic_array_32b",
         mapping_path="inputs/mapping/weight_unrolled_256.yaml",
@@ -23,6 +24,7 @@ class ExperimentConfig:
         self.model.batch_size = batch_size
         self.model.prefill_size = prefill_size
         self.model.decode_size = decode_size
+        self.model.verify_size = verify_size
         self.stage = stage
         self.quant = quant
         self.accelerator = accelerator
