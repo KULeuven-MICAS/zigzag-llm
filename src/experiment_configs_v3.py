@@ -42,13 +42,27 @@ def get_speculative_draft_config_decode(context_len, decode_len, out_prefix):
     )
 
 # [TODO] Chao: change stage to VERIFY
-def get_speculative_target_config_verify(context_len, decode_len, out_prefix):
+# def get_speculative_target_config_verify(context_len, decode_len, out_prefix):
+#     return ExperimentConfig(
+#         model=pickle_deepcopy(LLAMA_3_1_8B),
+#         stage=Stage.VERIFY,
+#         batch_size=1,
+#         prefill_size=context_len + decode_len,
+#         verify_size=decode_len,
+#         decode_size=1,
+#         quant=W8I8O32,
+#         accelerator=ACCELERATOR,
+#         mapping_path=MAPPING,
+#         out_path=os.path.join(out_prefix, "verification/"),
+#     )
+
+def get_speculative_target_config_verify(context_len, out_prefix):
+    # D. Target model prefill [ctx_len + decode_len] --> [ctx_len + decode_len + 1] (to get logits)
     return ExperimentConfig(
         model=pickle_deepcopy(LLAMA_3_1_8B),
-        stage=Stage.VERIFY,
+        stage=Stage.PREFILL,
         batch_size=1,
-        prefill_size=context_len + decode_len,
-        verify_size=decode_len,
+        prefill_size=context_len,
         decode_size=1,
         quant=W8I8O32,
         accelerator=ACCELERATOR,

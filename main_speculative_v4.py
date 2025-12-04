@@ -116,7 +116,7 @@ def run_experiment(out_prefix, prefill_len, decode_len, draft_len_per_verify, ac
         )
         
         # Do target verification (prefill)
-        target_verification_config = get_speculative_draft_config_prefill(
+        target_verification_config = get_speculative_target_config_verify(
             context_len=current_context_len + draft_len_per_verify,
             out_prefix=out_prefix,
         )
