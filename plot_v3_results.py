@@ -2,6 +2,7 @@ import os
 import json
 import matplotlib.pyplot as plt
 import seaborn as sns
+from itertools import product
 
 def get_directories(path):
     return [p for p in os.listdir(path) if os.path.isdir(os.path.join(path, p))]
@@ -114,23 +115,57 @@ def plot_energy_and_latency_box(sample_data, standard_data, out_prefix, include_
     plt.close()
 
 def main():
-    CONTEXT_LEN = 256
-    DECODE_LEN = 256
-    DRAFT_DECODE_LEN = 5
-    OUT_PREFIX = f"outputs/df_balanced_2_quant/initial_context_{CONTEXT_LEN}_to_decode_{DECODE_LEN}_total_with_{DRAFT_DECODE_LEN}_draft_decode/"
-    STANDARD_PATH = f"outputs/df_balanced_2_quant/standard/context_{CONTEXT_LEN}_decode_{DECODE_LEN}/standard/"
-
-    sample_data = load_sample_data(OUT_PREFIX)
-    standard_data = load_standard_data(STANDARD_PATH)
-
-    if not sample_data:
-        print("No sample data found. Ensure the parse script has been run.")
-        return
-
-    include_standard = True  # Set this flag to include or exclude the standard point in box plot
-
-    plot_energy_and_latency_line(sample_data, standard_data, OUT_PREFIX, False)
-    plot_energy_and_latency_box(sample_data, standard_data, OUT_PREFIX, include_standard)
+    # Experiment parameter configuration
+    experiment_configs = {
+        'context_lens': [64, 128, 256],
+        'decode_lens': [64, 128, 256],
+        'draft_decode_len': 5
+    }
+    
+    # Generate all experiment combinations
+    experiments = list(product(
+        experiment_configs['context_lens'],
+        experiment_configs['decode_lens']
+    ))
+    
+    print(f"Total experiments to plot: {len(experiments)}")
+    print("=" * 80)
+    
+    for idx, (context_len, decode_len) in enumerate(experiments, 1):
+        draft_decode_len = experiment_configs['draft_decode_len']
+        
+        out_prefix = (f"outputs/eagle3_sim_v0/"
+                     f"initial_context_{context_len}_to_decode_{decode_len}_"
+                     f"total_with_{draft_decode_len}_draft_decode/")
+        
+        standard_path = (f"outputs/eagle3_sim_v0/standard/"
+                        f"context_{context_len}_decode_{decode_len}/standard/")
+        
+        print(f"\nExperiment {idx}/{len(experiments)}")
+        print(f"Config: context={context_len}, decode={decode_len}, draft={draft_decode_len}")
+        print(f"Output: {out_prefix}")
+        print(f"Standard: {standard_path}")
+        print("-" * 80)
+        
+        # Load data
+        sample_data = load_sample_data(out_prefix)
+        standard_data = load_standard_data(standard_path)
+        
+        if not sample_data:
+            print(f"No sample data found for this configuration. Skipping.")
+            continue
+        
+        # Flag to include or exclude standard point in plots
+        include_standard = True
+        
+        # Generate plots
+        plot_energy_and_latency_line(sample_data, standard_data, out_prefix, False)
+        plot_energy_and_latency_box(sample_data, standard_data, out_prefix, include_standard)
+        
+        print(f"Plots generated for context={context_len}, decode={decode_len}")
+        print("=" * 80)
+    
+    print("\nAll plots completed!")
 
 if __name__ == "__main__":
     main()
