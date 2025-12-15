@@ -28,8 +28,8 @@ def export_transformer_to_onnx(
         dummy_input = torch.randint(low=0, high=255, size=(llm_config.batch_size, 1))  # Single token
     elif stage == Stage.VERIFY:
         model = LanguageModelVerify(llm_config)
-        # [TODO] Chao: Check if llm_config is correctly set for verify stage
-        dummy_input = torch.randint(low=0, high=255, size=(llm_config.batch_size, llm_config.prefill_size))
+        # Verify stage processes verify_size tokens (the draft tokens to verify)
+        dummy_input = torch.randint(low=0, high=255, size=(llm_config.batch_size, llm_config.verify_size))
     else:
         raise ValueError(f"Unknown stage: {stage}")
 

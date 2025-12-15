@@ -1,7 +1,5 @@
 # Adapted from https://github.com/suvash/nnze2he/blob/main/makemore/src/gpt.py
 # Verify stage for speculative decoding
-# [TODO] Chao: Double check if the verify stage works correctly.
-
 
 import math
 
